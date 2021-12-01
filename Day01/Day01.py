@@ -13,18 +13,17 @@ with open(__location__, 'r') as f:
     input_str = f.read().strip() # Takes the inputfile as a string
 
 
-
+def increases(a,b):
+    return sum(map(lambda x,y: x < y, a, b))
 
 
 if __name__ == "__main__":
     depths = list(map(int, input_str.splitlines()))
     # Part 1
-    increases = [x < y for (x,y) in zip(depths, depths[1:])]
-    print(sum(increases))
+    print(increases(depths,depths[1:]))
 
     # Part 2
-    windows = [x+y+z for (x,y,z) in zip(depths, depths[1:], depths[2:])]
-    w_increases = [x < y for (x,y) in zip(windows, windows[1:])]
-    print(sum(w_increases))
+    windows = list(map(lambda x,y,z: x+y+z, depths, depths[1:], depths[2:]))
+    print(increases(windows,windows[1:]))
     
 
