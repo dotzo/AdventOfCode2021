@@ -1,11 +1,10 @@
-# Day X
 
 # Description
 
 import os
 import sys
 
-__inputfile__ = 'Day-XX-input.txt'
+__inputfile__ = 'input.txt'
 __location__ = os.path.join(sys.path[0], __inputfile__)
 
 with open(__location__, 'r') as f:
