@@ -14,21 +14,11 @@ with open(__location__, 'r') as f:
 
 test = '''16,1,2,0,4,2,7,1,2,14'''
 
-def total_fuel_linear(ships):
+def total_fuel(ships, dist):
     final = inf
     med = 0
     for i in range(min(ships), max(ships)+1):
-        a = sum(map(lambda x: abs(i - x), ships))
-        if a < final:
-            final = a
-            med = i
-    return final, med
-
-def total_fuel_triangular(ships):
-    final = inf
-    med = 0
-    for i in range(min(ships), max(ships)+1):
-        a = sum(map(lambda x: (abs(i - x) * (abs(i - x) + 1)) // 2, ships))
+        a = sum(map(lambda x: dist(i,x), ships))
         if a < final:
             final = a
             med = i
@@ -38,7 +28,7 @@ if __name__ == "__main__":
     parse = list(map(int, input_str.split(',')))
     
     # Part 1
-    print(total_fuel_linear(parse))
+    print(total_fuel(parse, lambda i, x: abs(i - x)))
 
     # Part 2
-    print(total_fuel_triangular(parse))
+    print(total_fuel(parse, lambda i, x: (abs(i - x) * (abs(i - x) + 1) // 2)))
