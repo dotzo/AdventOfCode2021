@@ -7,8 +7,8 @@ import sys
 __inputfile__ = 'input.txt'
 __location__ = os.path.join(sys.path[0], __inputfile__)
 
-# with open(__location__, 'r') as f:
-#     input_str = f.read().strip() # Takes the inputfile as a string
+with open(__location__, 'r') as f:
+    input_str = f.read().strip() # Takes the inputfile as a string
 
 
 test = '''6,10
@@ -54,8 +54,10 @@ def do_fold(points, fold):
         to_remove = []
         for x,y in points:
             if y < f:
+                #print("unaffected point: ", x, y)
                 continue
             else:
+                #print("affected point: ", x, y, " - new point: ", x, f - (y - f))
                 to_add.append( (x , f - (y - f)) )
                 to_remove.append((x,y))
         points.difference_update(to_remove)
@@ -66,9 +68,11 @@ def do_fold(points, fold):
         to_remove = []
         for x,y in points:
             if x < f:
+                #print("unaffected point: ", x, y)
                 continue
             else:
-                to_add.append( (x - (f - x) , y) )
+                #print("affected point: ", x, y, " - new point: ", f - (x - f), y)
+                to_add.append((f - (x - f), y))
                 to_remove.append((x,y))
         points.difference_update(to_remove)
         points.update(to_add)
@@ -77,10 +81,11 @@ def do_fold(points, fold):
 def print_points(points):
     max_x = max(list(zip(*points))[0])
     max_y = max(list(zip(*points))[1])
+    #print("extremes", max_x, max_y)
 
-    for y in range(max_y):
+    for y in range(max_y+1):
         line = ''
-        for x in range(max_x):
+        for x in range(max_x+1):
             if (x,y) in points:
                 line += '#'
             else:
@@ -92,9 +97,15 @@ def print_points(points):
 
 
 if __name__ == "__main__":
-    points, folds = parse(test)
-    print_points(points)
+    
+    # Part 1
+    points, folds = parse(input_str)
     do_fold(points, folds[0])
-    print_points(points)
-    do_fold(points, folds[1])
+    print("Visible points after 1 fold - ", len(points))
+    print()
+
+    # Part 2
+    points, folds = parse(input_str)
+    for f in folds:
+        do_fold(points, f)
     print_points(points)
